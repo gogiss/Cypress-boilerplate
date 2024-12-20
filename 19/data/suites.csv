@@ -1,0 +1,3 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"failed","Fri Dec 20 18:37:29 GMT 2024","Fri Dec 20 18:37:36 GMT 2024","7449","Juice shop logins","","","","","Login with bender account. SQL injection. Failing test to check if screenshot is displayed correctly",""
+"passed","Fri Dec 20 18:37:22 GMT 2024","Fri Dec 20 18:37:29 GMT 2024","6138","Juice shop logins","","","","","Login with bender account. SQL injection",""
