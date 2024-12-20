@@ -39,7 +39,7 @@ jobs:
 
       - name: Force Cleanup of Branch
         run: |
-          chmod -R u+w .
+          sudo chmod -R u+w .
           git init
           git remote add origin https://github.com/${{ github.repository }}
           git fetch origin target-branch || git checkout --orphan target-branch
