@@ -55,4 +55,3 @@ jobs:
           publish_branch: deploy
           publish_dir: allure-history
           force_orphan: true
-          keep_files: false
