@@ -9,9 +9,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Verify Chrome version
-        run: google-chrome --version
-
       - name: Cypress run
         uses: cypress-io/github-action@v3
         continue-on-error: true
@@ -37,25 +34,53 @@ jobs:
           allure_history: allure-history
           allure_results: allure-results
 
-      - name: Clean Branch Manually
-        continue-on-error: true
-        run: |
-          git config --global user.name "github-actions-bot"
-          git config --global user.email "github-actions-bot@users.noreply.github.com"
-          git fetch origin deploy
-          git checkout --orphan deploy
-          git reset --hard
-          git rm -rf . --ignore-unmatch
-          rm -rf *
-          git commit --allow-empty -m "Clean branch"
-          git push origin deploy --force
-          sleep 30
-
-      - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3
-        if: always()
+      
+      - name: Upload static files as artifact
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: deploy
-          publish_dir: allure-history
-          force_orphan: true
+          path: allure-history
+      
+        # - name: Clean Branch Manually
+        # continue-on-error: true
+        # run: |
+        #   git config --global user.name "github-actions-bot"
+        #   git config --global user.email "github-actions-bot@users.noreply.github.com"
+        #   git fetch origin deploy
+        #   git checkout --orphan deploy
+        #   git reset --hard
+        #   git rm -rf . --ignore-unmatch
+        #   rm -rf *
+        #   git commit --allow-empty -m "Clean branch"
+        #   git push origin deploy --force
+        #   sleep 30
+
+      # - name: Publish test report
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   if: always()
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_branch: deploy
+      #     publish_dir: allure-history
+      #     force_orphan: true
+  
+  deploy:
+    # Add a dependency to the build job
+    needs: test
+  
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
