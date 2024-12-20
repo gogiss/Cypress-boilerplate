@@ -34,17 +34,8 @@ jobs:
           allure_history: allure-history
           allure_results: allure-results
 
-      - name: Clean branch
-        run: |
-            git config --global user.name "github-actions-bot"
-            git config --global user.email "github-actions-bot@users.noreply.github.com"
-            git checkout deploy
-            git rm -rf .
-            git commit --allow-empty -m "Clean up deploy branch"
-            git push origin deploy --force
-
       - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v2
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
