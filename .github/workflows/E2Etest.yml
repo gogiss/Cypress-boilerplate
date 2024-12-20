@@ -12,8 +12,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v3
         continue-on-error: true
-        with:
-          start: npm run test
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           PASSWORD: ${{ secrets.PASSWORD }}
