@@ -37,16 +37,6 @@ jobs:
           allure_history: allure-history
           allure_results: allure-results
 
-      - name: Cleanup deploy branch
-        run: |
-          git init
-          git remote add origin https://github.com/${{ github.repository }}
-          git fetch origin deploy
-          git checkout deploy
-          git rm -rf .
-          git clean -fdx
-        if: always()
-
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
         if: always()
