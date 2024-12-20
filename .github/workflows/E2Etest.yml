@@ -37,17 +37,13 @@ jobs:
           allure_history: allure-history
           allure_results: allure-results
 
-      - name: Force Cleanup of Branch
+      - name: Clean Branch Manually
         run: |
-          sudo chmod -R u+w .
-          git init
-          git remote add origin https://github.com/${{ github.repository }}
-          git fetch origin target-branch || git checkout --orphan target-branch
-          git checkout target-branch
+          git fetch origin deploy
+          git checkout deploy || git checkout --orphan deploy
           git rm -rf . || true
-          git clean -fdx || true
-          git commit --allow-empty -m "Clean branch contents"
-          git push origin target-branch --force
+          git commit --allow-empty -m "Clean branch"
+          git push origin deploy --force
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
@@ -56,3 +52,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: deploy
           publish_dir: allure-history
+          keep_files: false
