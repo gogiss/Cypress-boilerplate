@@ -1,0 +1,15 @@
+{
+  "name": "cypress_boilerplate",
+  "version": "1.0.0",
+  "description": "Cypress automated testing boilerplate based on saucedemo website. Page Object Pattern with inheritance and behavior examples.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^13.17.0",
+    "cypress-dotenv": "^2.0.0"
+  }
+}
