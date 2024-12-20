@@ -38,12 +38,13 @@ jobs:
           allure_results: allure-results
 
       - name: Clean Branch Manually
+        continue-on-error: true
         run: |
           git config --global user.name "github-actions-bot"
           git config --global user.email "github-actions-bot@users.noreply.github.com"
           git fetch origin deploy
-          git checkout deploy || git checkout --orphan deploy
-          git rm -rf . || true
+          git checkout --orphan deploy
+          git rm -rf .
           git commit --allow-empty -m "Clean branch"
           git push origin deploy --force
 
