@@ -37,23 +37,17 @@ jobs:
           allure_history: allure-history
           allure_results: allure-results
 
-      - name: Deploy
-        continue-on-error: true
-        run: |
-          git config --global user.name "github-actions-bot"
-          git config --global user.email "github-actions-bot@users.noreply.github.com"
-          git checkout --orphan deploy
-          git rm -rf .
-          cp -r allure-history/* .
-          git add .
-          git commit -m "Deploy to GitHub Pages"
-          git push origin gh-pages
+      - name: Delete branch
+        uses: dawidd6/action-delete-branch@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: deploy
 
-      # - name: Publish test report
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   if: always()
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_branch: deploy
-      #     publish_dir: allure-history
-      #     force_orphan: true
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: deploy
+          publish_dir: allure-history
+          force_orphan: true
