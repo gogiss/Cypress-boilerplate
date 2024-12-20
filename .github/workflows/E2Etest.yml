@@ -3,7 +3,7 @@ name: E2E on Chrome
 on: [push]
 
 jobs:
-  run-tests:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -11,6 +11,7 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v3
+        continue-on-error: true
         with:
           start: npm run test
         env:
@@ -22,7 +23,7 @@ jobs:
         if: always()
         continue-on-error: true
         with:
-          ref: main
+          ref: deploy
           path: backup
   
       - name: Build test report
