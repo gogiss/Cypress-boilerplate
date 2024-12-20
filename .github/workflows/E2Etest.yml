@@ -44,15 +44,17 @@ jobs:
           git config --global user.email "github-actions-bot@users.noreply.github.com"
           git fetch origin deploy
           git checkout --orphan deploy
-          git rm -rf .
+          git reset --hard
+          git rm -rf . --ignore-unmatch
+          rm -rf *
           git commit --allow-empty -m "Clean branch"
           git push origin deploy --force
 
-      - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: deploy
-          publish_dir: allure-history
-          force_orphan: true
+      # - name: Publish test report
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   if: always()
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_branch: deploy
+      #     publish_dir: allure-history
+      #     force_orphan: true
